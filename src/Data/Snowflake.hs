@@ -70,6 +70,9 @@ snowflakeToInteger (Snowflake time count node config) = let
 instance Show Snowflake where
   show = show . snowflakeToInteger
 
+instance Ord Snowflake where
+  compare a b = snowflakeToInteger a `compare` snowflakeToInteger b
+
 cutBits :: (Num a, Bits a) => a -> Int -> a
 cutBits n bits = n .&. ((1 `shift` bits) - 1)
 
