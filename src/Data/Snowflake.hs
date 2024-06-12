@@ -1,4 +1,5 @@
 {-# LANGUAGE BangPatterns #-}
+{-# LANGUAGE DeriveGeneric, DeriveDataTypeable #-}
 
 {-|
 Module      : Data.Snowflake
@@ -27,6 +28,9 @@ import Control.Concurrent.MVar (MVar, newMVar, putMVar, takeMVar)
 import Data.Time.Clock.POSIX (getPOSIXTime)
 import Control.Monad (when)
 import Control.Concurrent (threadDelay)
+import Data.Data
+import Data.Typeable
+import GHC.Generics (Generic)
 
 {-|
 Configuration that specifies how much bits are used for each part of the id.
@@ -35,7 +39,7 @@ There are no limits to total bit sum.
 data SnowflakeConfig = SnowflakeConfig { confTimeBits  :: {-# UNPACK #-} !Int
                                        , confCountBits :: {-# UNPACK #-} !Int
                                        , confNodeBits  :: {-# UNPACK #-} !Int
-                                       } deriving (Eq, Show)
+                                       } deriving (Eq, Show, Data, Typeable, Generic)
 
 -- |Default configuration using 40 bits for time, 16 for count and 8 for node id.
 defaultConfig :: SnowflakeConfig
@@ -50,7 +54,7 @@ data Snowflake = Snowflake { snowflakeTime  :: !Integer
                            , snowflakeCount :: !Integer
                            , snowflakeNode  :: !Integer
                            , snowflakeConf  :: !SnowflakeConfig
-                           } deriving (Eq)
+                           } deriving (Eq, Data, Typeable, Generic)
 
 -- |Converts an identifier to an integer with respect to configuration used to generate it.
 snowflakeToInteger :: Snowflake -> Integer
