@@ -46,7 +46,7 @@ defaultConfig :: SnowflakeConfig
 defaultConfig = SnowflakeConfig 40 16 8
 
 -- |Generator which contains needed state. You should use `newSnowflakeGen` to create instances.
-newtype SnowflakeGen = SnowflakeGen { genLastSnowflake :: MVar Snowflake } 
+newtype SnowflakeGen = SnowflakeGen { genLastSnowflake :: MVar Snowflake }
 
 
 -- |Generated identifier. Can be converted to `Integer`.
